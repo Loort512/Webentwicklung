@@ -1,17 +1,35 @@
 <html>
     <head>
+        <link rel="stylesheet" href="styles/common.css">
+        <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0">
         <title>Management System</title>
-        <script src="js/router.js" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="router.js" type="text/javascript"></script>
         <script src="js/index.js" type="text/javascript"></script>
+
+        <link rel="import" href="fragments/login.html">
     </head>
 
-    <body>
+    <body onload="route()">
         <div class="header">
             header
+            <button oncklick="load_fragment">load_Fragment()</button>
         </div>
 
-        <div id="content">
-            content
+        <div id="main">
+            <div class="row">
+                <div class="col-4 col-s-9">
+                    <div class="menu">
+                        Menu
+                    </div>
+                </div>
+                <div class="col-4 col-s-9">
+                    <div id="content" class="doc">
+                        content
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
         <div class="footer">
