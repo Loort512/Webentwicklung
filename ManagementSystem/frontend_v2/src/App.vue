@@ -21,17 +21,12 @@ export default{
     } 
   },
   created(){
+    this.$store.dispatch('addStudent',{id: '1', fistName: 'name'} );
+    this.$store.dispatch('addStudent',{id: '2', fistName: 'name'} );
+    this.$store.dispatch('addStudent',{id: '3', fistName: 'name'} );
     this.$watch('storeState', (newSTate) =>{
       console.log("storeState changeds")
     } )
-  } ,
-  watch: {
-    storeState(var1, var2){
-      console.log("var1: ", var1);
-      console.log("var2: ", var2);
-       console.log("store loggedInAs: ", this.$store.state.loggedInAs)
-    } 
-   
   }  
 
 } 

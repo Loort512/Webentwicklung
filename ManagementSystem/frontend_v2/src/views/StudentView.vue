@@ -20,10 +20,75 @@
                 <th> {{student.gender}} </th>
                 <th> {{student.department}} </th>
                 <th> {{student.emailID}} </th>
-                <th>  <input type="button" value="UPDATE" @click="updateStudent(student.id)"/> </th>
+                <th>  <input type="button" value="UPDATE" @click="updateStudent(student)"/> </th>
                 <th>  <input type="button" value="DELETE" @click="deleteStudent(student.id)"/> </th>
             </tr>
         </table>
+
+        <!-- UPDATE STUDENT -->
+        <div v-if="activeStudent" class="inputGroup">
+            <h3>Update Student</h3>
+            <div class="inputForm">
+                <label for="studentID">ID</label>
+                <input v-model="activeStudent.id" 
+                    id="studentID" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="firstName">First Name</label>
+                <input v-model="activeStudent.firstName" 
+                    id="firstName" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+            <div class="inputForm">
+                <label for="lastName">Last Name</label>
+                <input v-model="activeStudent.lastName" 
+                    id="lastName" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+
+            <div class="inputForm">
+                <label for="dob">DOB</label>
+                    <input v-model="activeStudent.dob" 
+                    id="DOB" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+
+            <div class="inputForm">
+                <label for="dob">Gender</label>
+                <input v-model="activeStudent.gender" 
+                    id="gender" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="dob">Department</label>
+                <input v-model="activeStudent.department" 
+                    id="department" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="dob">Email ID</label>
+                <input v-model="activeStudent.emailID" 
+                    id="emailID" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <input type="button" value="Update Student" @click="updateStudent(activeStudent)"/>
+        </div>
+    
     </div>
 </template>
 
@@ -34,7 +99,9 @@ export default{
     name: 'AdminView',
     data(){
         return{
-            students:[] 
+            students:[] ,
+            activeStudent: '' ,
+            showUpdateContent: false
         }  
     }, 
     components:{
@@ -44,18 +111,29 @@ export default{
         console.log("created StudentView")
         this.students = this.$store.state.students
         console.log("students: ", this.students)
+        console.log("active student: ", this.activeStudent)
     },
     methods:{
       addStudent(){
           console.log("addStudent")
           this.$router.push({path: '/addstudent'}  )
       } ,
-      updateStudent(id){
-          console.log("updateStudent ", id)
-          //this.$router.push({path: '/addStudent'} )
+      showUpdateContent(st){
+        this.activeStudent = st;
+        this.showUpdateContent = true;
+      } ,
+      updateStudent(st){
+          if(this.activeStudent){
+              this.activeStudent = undefined;
+          } else{
+              this.activeStudent = st;
+          } 
       } ,
       deleteStudent(id){
           console.log("delete Student ", id)
+          this.$store.dispatch('deleteStudent', id);
+          this.$router.push({path: '/home'}  )
+          console.log("state in view: ", this.$store.state.students)
       } 
     }  
 } 
