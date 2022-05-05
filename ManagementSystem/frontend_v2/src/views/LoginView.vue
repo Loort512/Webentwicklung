@@ -72,16 +72,20 @@ export default {
           console.log("login: ", type);
           if(type === "staff"){
               if(this.emailStaff === "staff" && this.passwordStaff === "staff"){
-                sessionStorage.setItem("loggedIn", "staff");
+                var roleStaff = "staff";
+                this.$store.dispatch('loggedInAs', roleStaff);
+                //sessionStorage.setItem("loggedIn", "staff");
                 succeed = true;
               } 
           }else if(type === "admin"){
               if(this.emailAdmin === "admin" && this.passwordAdmin === "admin"){
-                sessionStorage.setItem("loggedIn", "admin");
+                var roleAdmin = "admin"
+                this.$store.dispatch('loggedInAs', roleAdmin);
+                //sessionStorage.setItem("loggedIn", "admin");
                 succeed = true;
               } 
           }  
-          console.log("loggedIn: ", sessionStorage.getItem("loggedIn"));
+          console.log("loggedIn: ", this.$store.state.loggedInAs);
           if(succeed){
               this.showAlert = false;
               this.$router.push( {path: '/'}  )

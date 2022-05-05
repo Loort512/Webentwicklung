@@ -12,14 +12,16 @@
                 <th>Department</th>
                 <th>Email ID</th>
             </tr>
-            <tr>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
+            <tr v-for="student in students">
+                <th> {{student.id}} </th>
+                <th> {{student.firstName}} </th>
+                <th> {{student.lastName}} </th>
+                <th> {{student.dob}} </th>
+                <th> {{student.gender}} </th>
+                <th> {{student.department}} </th>
+                <th> {{student.emailID}} </th>
+                <th>  <input type="button" value="UPDATE" @click="updateStudent(student.id)"/> </th>
+                <th>  <input type="button" value="DELETE" @click="deleteStudent(student.id)"/> </th>
             </tr>
         </table>
     </div>
@@ -32,18 +34,28 @@ export default{
     name: 'AdminView',
     data(){
         return{
-
+            students:[] 
         }  
     }, 
     components:{
         InputModal
     } ,
-    computed(){
-
+    mounted(){
+        console.log("created StudentView")
+        this.students = this.$store.state.students
+        console.log("students: ", this.students)
     },
     methods:{
       addStudent(){
           console.log("addStudent")
+          this.$router.push({path: '/addstudent'}  )
+      } ,
+      updateStudent(id){
+          console.log("updateStudent ", id)
+          //this.$router.push({path: '/addStudent'} )
+      } ,
+      deleteStudent(id){
+          console.log("delete Student ", id)
       } 
     }  
 } 

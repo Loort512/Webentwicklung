@@ -16,16 +16,23 @@
 export default{
   data(){
     return{
-      roleAdmin: true
+      roleAdmin: true,//this.$store.state.loggedInAs === "admin",
+      storeState: this.$store.state.loggedInAs
     } 
   },
-  computed(){
-    console.log("computed");
-    console.log("session: ", sessionStorage.getItem("loggedIn"))
-    if(sessionStorage.getItem("loggedIn") === "admin"){
-        roleAdmin = true;
+  created(){
+    this.$watch('storeState', (newSTate) =>{
+      console.log("storeState changeds")
+    } )
+  } ,
+  watch: {
+    storeState(var1, var2){
+      console.log("var1: ", var1);
+      console.log("var2: ", var2);
+       console.log("store loggedInAs: ", this.$store.state.loggedInAs)
     } 
-  } 
+   
+  }  
 
 } 
 </script>
