@@ -8,7 +8,10 @@ function load_fragment(target){
     // if logged in as role the add folder in path
     //load_fragment();
     //$("#content").load("fragments/login.html")
-    document.getElementById("content").innerHTML='<object type="text/html" data="fragments/' + target + '.html" ></object>';
+    console.log(document.getElementById("contentFrame").src)
+    document.getElementById("contentFrame").src = "./fragments/"+target+".html";
+    //$('#contentFrame').src = "./fragments/"+target+".html";
+    //document.getElementById("content").innerHTML='<object type="text/html" data="fragments/' + target + '.html" ></object>';
 } 
 
 // route to fragments
