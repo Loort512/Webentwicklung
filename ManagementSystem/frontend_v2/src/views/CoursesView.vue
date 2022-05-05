@@ -1,5 +1,10 @@
 <template>
     <div class="courses">
+        <div class="header">
+            <router-link v-if="this.$store.state.loggedInAs === 'admin'" to="/student" >Student</router-link> |  
+            <router-link v-if="this.$store.state.loggedInAs === 'admin'" to="/staff" >Staff</router-link><br>
+            <router-link v-if="this.$store.state.loggedInAs === 'staff'" to="/courses" >Courses</router-link>
+        </div>
         <h1>Course Overview</h1>
         <table border=0>
             <tr v-for="course in courses">

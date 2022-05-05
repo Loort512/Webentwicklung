@@ -73,14 +73,14 @@ export default {
           if(type === "staff"){
               if(this.emailStaff === "staff" && this.passwordStaff === "staff"){
                 var roleStaff = "staff";
-                this.$store.dispatch('loggedInAs', roleStaff);
+                this.$store.dispatch('loggedInAs', "staff");
                 //sessionStorage.setItem("loggedIn", "staff");
                 succeed = true;
               } 
           }else if(type === "admin"){
               if(this.emailAdmin === "admin" && this.passwordAdmin === "admin"){
                 var roleAdmin = "admin"
-                this.$store.dispatch('loggedInAs', roleAdmin);
+                this.$store.dispatch('loggedInAs', "admin");
                 //sessionStorage.setItem("loggedIn", "admin");
                 succeed = true;
               } 

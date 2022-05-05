@@ -1,5 +1,11 @@
 <template>
+
     <div class="addStudent">
+        <div class="header">
+            <router-link v-if="this.$store.state.loggedInAs === 'admin'" to="/student" >Student</router-link> |  
+            <router-link v-if="this.$store.state.loggedInAs === 'admin'" to="/staff" >Staff</router-link><br>
+            <router-link v-if="this.$store.state.loggedInAs === 'staff'" to="/courses" >Courses</router-link>
+        </div>
         <form>
 
         <h1>Add Staff</h1>

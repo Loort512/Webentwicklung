@@ -2,9 +2,6 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link><br>
-    <router-link to="/student" v-if="roleAdmin">Student</router-link>
-    <router-link to="/staff" v-if="roleAdmin">Staff</router-link><br>
-    <router-link to="/courses" v-if="roleStaff">Courses</router-link>
   </nav>
   <div class="content">
     <router-view/>
@@ -17,9 +14,6 @@
 export default{
   data(){
     return{
-      roleAdmin: true,//this.$store.state.loggedInAs === "admin",
-      roleStaff: true,
-      storeState: this.$store.state.loggedInAs
     } 
   },
   created(){
@@ -38,9 +32,6 @@ export default{
     this.$store.dispatch('addStaff',{id: '6', firstName: 'Henrike1', lastName: 'Muster', dob: '10.08.1995', gender: 'w', department: 'HTW', emailID: 'he.muster@yahoo.de'} );
     this.$store.dispatch('addStaff',{id: '7', firstName: 'Laura1', lastName: 'Muster', dob: '10.10.1995', gender: 'w', department: 'HTW', emailID: 'laura.muster@yahoo.de'} );
 
-    this.$watch('storeState', (newSTate) =>{
-      console.log("storeState changeds")
-    } )
   }  
 
 } 
