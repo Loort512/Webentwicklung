@@ -1,8 +1,6 @@
 <template>
     <div class="login">
-        <div v-if="showAlert" class="alert">
-            <p>Wrong username or password</p>
-        </div>
+        <Alert v-if="showAlert" msg="Login Credentials Incorrect"></Alert>
         <div class="loginStaff">
             <h1>Staff Login</h1>
             <p>
@@ -11,25 +9,42 @@
                         id="usernameStaff" 
                         class="input" 
                         type="text" 
-                        placeholder="Benutzername"/>
+                        placeholder="Benutzername"
+                        :disabled="inputDisabled === 1"/>
 
                 <label for="passwordStaff"></label>
-                <input v-model="passwordStaff" id="passwordStaff" class="input" type="password" placeholder="Passwort"/><br/>
+                <input v-model="passwordStaff" 
+                        id="passwordStaff" 
+                        class="input" 
+                        type="password" 
+                        placeholder="Passwort" 
+                        :disabled="inputDisabled === 1"/><br/>
                 <button id="btnLoginStaff" type="button" @click="login('staff')">Login</button>
-
             </p>
         </div>
         <div class="loginAdmin">
             <h1>Admin Login</h1>
             <p>
-                <input id="usernameAdmin" class="input" type="text" placeholder="Benutzername"/><br/>
-                <input id="passwordAdmin" class="input" type="password" placeholder="Passwort"/><br/>
+                <input v-model="emailAdmin" 
+                        id="usernameAdmin" 
+                        class="input" 
+                        type="text" 
+                        placeholder="Benutzername"
+                        :disabled="inputDisabled === 1"/><br/>
+
+                <input v-model="passwordAdmin" 
+                        id="passwordAdmin" 
+                        class="input" 
+                        type="password" 
+                        placeholder="Passwort"
+                        :disabled="inputDisabled === 1"/><br/>
                 <button id="btnLoginAdmin" type="button" @click="login('admin')">Login</button>
             </p>
         </div>
     </div>
 </template>
 <script>
+import Alert from '../components/Alert.vue'
 
 export default {
   name: 'LoginView',
@@ -39,12 +54,18 @@ export default {
           passwordStaff: '',
           emailAdmin: '',
           passwordAdmin: '',
-          showAlert: false
+          showAlert: false,
+          alertMessage: '',
+          inputDisabled: 0,
+          loginCounter: 0
       } 
   }, 
   setup(){
       
   },
+  components:{
+      Alert
+  }, 
   methods:{
       login(type){
           var succeed = false;
@@ -66,6 +87,10 @@ export default {
               this.$router.push( {path: '/'}  )
           }else{
               this.showAlert = true;
+              this.loginCounter += 1;
+              if(this.loginCounter >= 3){
+                  this.inputDisabled = 1;
+              } 
           } 
         
       } 
@@ -75,16 +100,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.login{
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    justify-content: center;
-    align-items: center;
-    background-color: green;
-    margin-left: 8%;
-    width: 85%;
-} 
 .alert{
     display: flex;
     height: 10%;
