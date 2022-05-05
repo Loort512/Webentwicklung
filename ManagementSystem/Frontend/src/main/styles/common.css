@@ -9,7 +9,6 @@ https://www.w3schools.com/Css/tryit.asp?filename=tryresponsive_col-s
 }
 
 html {
-    background: url("../img/strand-karibik.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -60,12 +59,6 @@ html {
 .menu li:hover {
     background-color: #0099cc;
 }
-.contentBox {
-    background-color: #468dca;
-    padding: 10%;
-    text-align: center;
-    opacity: 0.9;
-}
 
 .editBox {
     background-color: #468dca;
@@ -108,19 +101,16 @@ button {
 
 /* Login */
 .login{
-    
+
 } 
 
 
-/* Map */
-.map {
-    width: 100%;
-    height: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
+.main {
+    background-color: #468dca;
+    padding: 10%;
+    text-align: center;
+    opacity: 0.9;
+} 
 
 /* For mobile phones: */
 [class*="col-"] {
