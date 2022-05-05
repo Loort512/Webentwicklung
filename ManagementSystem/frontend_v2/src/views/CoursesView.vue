@@ -1,15 +1,15 @@
 <template>
     <div class="courses">
         <h1>Course Overview</h1>
-        <table border=1>
+        <table border=0>
             <tr v-for="course in courses">
-                  <td> <button @click="show(course)" > {{ course.name }} </button></td>
+                  <td> <button class="btnShowCourse" @click="show(course)" > {{ course.name }} </button></td>
             </tr>
         </table>
 
         <div v-if="showCourseInfo" class="courseInfo">
             <h1>Students</h1>
-            <table border=1>
+            <table border=0>
             <tr v-for="student in activeCourse.students">
                   <td> {{ student.name }} </td>
             </tr>
@@ -35,7 +35,7 @@ export default{
             id: '1',
             name:'Mathematics', 
             students:[
-            {name: 'John Dillan'},{name: 'Max Muster'}  
+            {name: 'John Dillan'},{name: 'Max Muster'} ,{name: 'Felix Bruch'} 
             ]  
         } 
         let physics ={
@@ -66,7 +66,7 @@ export default{
 } 
 </script>
 <style scoped>
-.courseInfo{
-
+.btnShowCourse{
+    width: 100%
 } 
 </style>

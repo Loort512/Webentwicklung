@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import StaffView from '../views/StaffView.vue'
 import AddStudentView from '../views/AddStudentView.vue'
 import CoursesView from '../views/CoursesView.vue'
+import AddStaffView from '../views/AddStaffView.vue'
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     name: 'staff',
     component: StaffView
   } ,
+ {
+   path: '/addStaff',
+   name: 'addStaff',
+   component: AddStaffView
+ } ,
   {
     path: '/addstudent',
     name: 'addstudent',

@@ -3,13 +3,14 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     students:[] ,
-    loggedInAs: String
+    loggedInAs: String,
+    staff:[] 
   },
   getters: {
   },
   mutations: {
     addStudent: (state, payload) =>{
-      console.log("addStudent")
+      console.log("addStudent: ", payload)
       state.students.push(payload);
     } ,
     loggedInAs: (state, payload) =>{
@@ -17,10 +18,7 @@ export default createStore({
     } ,
     deleteStudent: (state, studentID) =>{
 
-      // index = state.students.findIndex(st => st.id === studentID);
-      
-      // state.students.splice(index, 1);
-      state.students.splice(studentID, 1)
+      //state.students.splice(studentID, 1)
       let newList =[]; 
       for(let i = 0; i < state.students.length; i++){
         console.log("el id: ", state.students[i].id )
@@ -35,6 +33,25 @@ export default createStore({
       console.log("newList: ", newList);
       state.students = newList;
       console.log("state: ", state.students);
+    } ,
+    deleteStaff: (state, staffID) =>{
+      let newList =[]; 
+      for(let i = 0; i < state.staff.length; i++){
+        console.log("el id: ", state.staff[i].id )
+        if(state.staff[i].id !== staffID){
+          console.log("found one element to push: ", state.staff[i] )
+          newList.push(state.staff[i]);
+        } else{
+          console.log("el to delete: ", state.staff[i] )
+          console.log("el to delete di: ", staffID);
+        } 
+      } 
+      console.log("newList: ", newList);
+      state.staff = newList;
+      console.log("state: ", state.staff);
+    }, 
+    addStaff: (state, staff1) =>{
+      state.staff.push(staff1);
     } 
   },
   actions: {
@@ -46,6 +63,12 @@ export default createStore({
     } ,
     deleteStudent: (context, payload) =>{
       context.commit("deleteStudent", payload);
+    } ,
+    addStaff: (context, payload) =>{
+      context.commit("addStaff", payload);
+    } ,
+    deleteStaff: (context, payload) =>{
+      context.commit("deleteStaff", payload);
     } 
     
   },

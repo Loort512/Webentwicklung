@@ -1,7 +1,6 @@
 <template>
     <div class="student">
         <h1>Students</h1>
-        <input type="button" value="ADD" @click="addStudent()"/>
         <table border=1>
             <tr>
                 <th>Student ID</th>
@@ -24,6 +23,8 @@
                 <th>  <input type="button" value="DELETE" @click="deleteStudent(student.id)"/> </th>
             </tr>
         </table>
+        <br><br>
+        <input type="button" value="ADD" @click="addStudent()"/>
 
         <!-- UPDATE STUDENT -->
         <div v-if="activeStudent" class="inputGroup">
@@ -96,7 +97,7 @@
 import InputModal from '../components/InputModal.vue'
 
 export default{
-    name: 'AdminView',
+    name: 'StudentView',
     data(){
         return{
             students:[] ,
@@ -132,8 +133,8 @@ export default{
       deleteStudent(id){
           console.log("delete Student ", id)
           this.$store.dispatch('deleteStudent', id);
-          this.$router.push({path: '/home'}  )
-          console.log("state in view: ", this.$store.state.students)
+          this.$router.push({path: '/'}  );
+          console.log("state in view: ", this.$store.state.students);
       } 
     }  
 } 

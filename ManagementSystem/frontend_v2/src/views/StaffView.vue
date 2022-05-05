@@ -11,31 +11,132 @@
                 <th>Department</th>
                 <th>Email ID</th>
             </tr>
-            <tr>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
-                <th>test</th>
+            <tr v-for="entry in staff">
+                <th> {{entry.id}} </th>
+                <th> {{entry.firstName}} </th>
+                <th> {{entry.lastName}} </th>
+                <th> {{entry.dob}} </th>
+                <th> {{entry.gender}} </th>
+                <th> {{entry.department}} </th>
+                <th> {{entry.emailID}} </th>
+                <th>  <input type="button" value="UPDATE" @click="updateStaff(entry)"/> </th>
+                <th>  <input type="button" value="DELETE" @click="deleteStaff(entry.id)"/> </th>
             </tr>
         </table>
+        <br><br>
+        <input type="button" value="ADD" @click="addStaff()"/>
+
+        <!-- UPDATE Staff -->
+        <div v-if="activeStaff" class="inputGroup">
+            <h3>Update Staff</h3>
+            <div class="inputForm">
+                <label for="studentID">ID</label>
+                <input v-model="activeStaff.id" 
+                    id="studentID1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="firstName">First Name</label>
+                <input v-model="activeStaff.firstName" 
+                    id="firstName1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+            <div class="inputForm">
+                <label for="lastName">Last Name</label>
+                <input v-model="activeStaff.lastName" 
+                    id="lastName1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+
+            <div class="inputForm">
+                <label for="dob">DOB</label>
+                    <input v-model="activeStaff.dob" 
+                    id="DOB1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+            
+
+            <div class="inputForm">
+                <label for="dob">Gender</label>
+                <input v-model="activeStaff.gender" 
+                    id="gender1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="dob">Department</label>
+                <input v-model="activeStaff.department" 
+                    id="department1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <div class="inputForm">
+                <label for="dob">Email ID</label>
+                <input v-model="activeStaff.emailID" 
+                    id="emailID1" 
+                    class="input" 
+                    type="text"/>
+            </div>
+
+            <input type="button" value="Update Staff" @click="updateStaff(activeStaff)"/>
+        </div>
+    
     </div>
 </template>
 
 <script>
+import InputModal from '../components/InputModal.vue'
 
 export default{
-    name: 'AdminView',
+    name: 'staffView',
     data(){
         return{
-
+            staff:[] ,
+            activeStaff: '' ,
+            showUpdateContent: false
         }  
     }, 
-    computed(){
-
-    } 
+    components:{
+        InputModal
+    } ,
+    mounted(){
+        console.log("created Staff")
+        this.staff = this.$store.state.staff
+        console.log("staff: ", this.staff)
+        console.log("active staff: ", this.activeStaff)
+    },
+    methods:{
+      addStaff(){
+          console.log("addSTaff")
+          this.$router.push({path: '/addStaff'}  )
+      } ,
+      showUpdateContent(st){
+        this.activeStaff = st;
+        this.showUpdateContent = true;
+      } ,
+      updateStaff(st){
+          if(this.activeStaff){
+              this.activeStaff = undefined;
+          } else{
+              this.activeStaff = st;
+          } 
+      } ,
+      deleteStaff(id){
+          console.log("delete staff ", id)
+          this.$store.dispatch('deleteStaff', id);
+          this.$router.push({path: '/'}  );
+          console.log("state in view: ", this.$store.state.staff);
+      } 
+    }  
 } 
 </script>
 <style scoped>
