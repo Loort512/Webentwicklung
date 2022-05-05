@@ -3,7 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link><br>
     <router-link to="/student" v-if="roleAdmin">Student</router-link>
-    <router-link to="/staff" v-if="roleAdmin">Staff</router-link>
+    <router-link to="/staff" v-if="roleAdmin">Staff</router-link><br>
+    <router-link to="/courses" v-if="roleStaff">Courses</router-link>
   </nav>
   <div class="content">
     <router-view/>
@@ -17,6 +18,7 @@ export default{
   data(){
     return{
       roleAdmin: true,//this.$store.state.loggedInAs === "admin",
+      roleStaff: true,
       storeState: this.$store.state.loggedInAs
     } 
   },
