@@ -59,6 +59,10 @@
 
         <div class="inputForm">
             <label for="dob">Department</label>
+            <select name="departmentSelection" id="departmentSelection" @change="selectDepartment($event)" >
+                <option value="add New">add New</option>
+                <option v-for="department in getDepartmentsByStudent()" value={{department}}>{{department}}</option>
+            </select>
             <input v-model="student.department" 
                 id="department" 
                 class="input" 
@@ -98,7 +102,8 @@ export default {
                 emailID: ''
             } ,
             showAlert: false,
-            alertMsg: [] 
+            alertMsg: [] ,
+            selectedDepartment: ''
       } 
   }, 
   components:{
@@ -210,6 +215,27 @@ export default {
                 this.showAlert = true;
                 this.alertMsg.push("Email is not valid");
             }
+        } ,
+        getDepartmentsByStudent(){
+            let departmentsAll ={} ; 
+            departmentsAll = this.$store.state.students.map((st) => {
+                return st.department;
+            } ); 
+
+            let departments = []; 
+            departmentsAll.forEach((d)  => {
+
+                if(!departments.includes(d)){
+                    departments.push(d)
+                } 
+                
+            } );
+            
+            return departments;
+        },
+        selectDepartment(event){
+            console.log(event.target)
+            this.student.department = event.target.options[event.target.options.selectedIndex].text;;
         } 
   } 
 }
