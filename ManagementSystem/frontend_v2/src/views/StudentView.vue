@@ -6,10 +6,21 @@
             <router-link v-if="this.$store.state.loggedInAs === 'staff'" to="/courses" >Courses</router-link>
         </div>
         <h1>Students</h1>
+        <h3>Department</h3>
         <select name="departmentSelection" id="departmentSelection" @change="filterStudentsByDepartment($event)" >
             <option value="noFilter">no Filter</option>
             <option v-for="department in getDepartmentsByStudent()" value={{department}}>{{department}}</option>
         </select>
+        <br/>
+        <br/>
+        <h3>Semester</h3>
+        <select name="departmentSelection" id="departmentSelection" @change="filterStudentsByJoiningSemester($event)" >
+            <option value="noFilter">no Filter</option>
+            <option value="Sommersemester">Sommersemester</option>
+            <option value="Wintersemester">Wintersemester</option>
+            <option value="Herbstsemester">Herbstsemester</option>
+        </select>
+        <br/>
         <table border=1>
             <tr>
                 <th>Student ID</th>
@@ -19,6 +30,8 @@
                 <th>Gender</th>
                 <th>Department</th>
                 <th>Email ID</th>
+                <th>Joining Date</th>
+                <th>Semester</th>
             </tr>
             <tr v-for="student in studentsView">
                 <th> {{student.id}} </th>
@@ -28,6 +41,7 @@
                 <th> {{student.gender}} </th>
                 <th> {{student.department}} </th>
                 <th> {{student.emailID}} </th>
+                <th> {{student.joiningDate}} </th>
                 <th>  <input type="button" value="UPDATE" @click="updateStudent(student)"/> </th>
                 <th>  <input type="button" value="DELETE" @click="deleteStudent(student.id)"/> </th>
             </tr>
@@ -180,9 +194,49 @@ export default{
             })
 
         } ,
-        formatDate(date){
-    return date.toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"}) ;
-} 
+        filterStudentsByJoiningSemester(event) {
+            // Sose: 4-9
+            // Wise: 10-12 && 1 - 2
+            // Fall: 3
+            this.studentsView = this.$store.state.students;
+            let filterString = event.target.options[event.target.options.selectedIndex].text;
+            let filteredList = [];  
+            console.log(filterString)
+            if(filterString === "Sommersemester"){
+                console.log("Sose")
+                filteredList = this.$store.state.students.filter((st)  => {
+                    let d = new Date(st.joiningDate).getMonth()
+                    console.log("d: ", d)
+                    if(d >= 4 && d <= 9){
+                        console.log("add ", d);
+                        return st;
+                    } 
+                } )
+            } else if(filterString === "Wintersemester"){
+                console.log("WiSe")
+                filteredList = this.$store.state.students.filter((st)  => {
+                    let d = new Date(st.joiningDate).getMonth()
+                    if( (d >= 10 && d <= 12) || (d === 1 || d === 2) ){
+                        console.log("add ", d);
+                        return st;
+                    } 
+                } )
+            } else if(filterString === "no Filter"){
+                console.log("no Filter")
+                filteredList = this.$store.state.students;
+            } else if(filterString === "Herbstsemester"){
+                console.log("Herbst")
+                filteredList = this.$store.state.students.filter((st)  => {
+                    let d = new Date(st.joiningDate).getMonth()
+                    if(d === 3){
+                        return st;
+                    } 
+                } )
+            } 
+            console.log("joiningDate: ", filteredList)
+
+            this.studentsView = filteredList;
+        }  
           
     }  
 } 

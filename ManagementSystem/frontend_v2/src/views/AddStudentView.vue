@@ -79,6 +79,15 @@
                 @change="vallidateStudent(student, false)"/>
         </div>
 
+        <div class="inputForm">
+            <label for="joiningDate">Joining Date</label>
+            <input v-model="student.joiningDate" 
+                id="emailID" 
+                class="input" 
+                type="date"
+                @change="vallidateStudent(student, false)"/>
+        </div>
+
         
 
         <button v-if="!showAlert" id="btnAddStudent" type="button" @click="addStudent()">Add</button>
@@ -123,7 +132,8 @@ export default {
                 dob: this.student.dob,
                 gender: this.student.gender,
                 department: this.student.department,
-                emailID: this.student.emailID
+                emailID: this.student.emailID,
+                joiningDate: this.student.joiningDate
             } 
             this.$store.dispatch('addStudent', student);
 
@@ -234,7 +244,6 @@ export default {
             return departments;
         },
         selectDepartment(event){
-            console.log(event.target)
             this.student.department = event.target.options[event.target.options.selectedIndex].text;;
         } 
   } 
