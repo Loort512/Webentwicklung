@@ -7,6 +7,7 @@
         </div>
         <form>
 
+        <Alert v-if="showAlert" :msg="alertMsg"></Alert>
         <h1>Add Student</h1>
         <div class="inputForm">
             <label for="studentID">ID</label>
@@ -21,7 +22,8 @@
             <input v-model="student.firstName" 
                 id="firstName" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student)"/>
         </div>
         
         <div class="inputForm">
@@ -29,16 +31,18 @@
             <input v-model="student.lastName" 
                 id="lastName" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student)"/>
         </div>
         
 
         <div class="inputForm">
             <label for="dob">DOB</label>
-                <input v-model="student.dob" 
+            <input v-model="student.dob" 
                 id="DOB" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student)" />
         </div>
         
 
@@ -79,37 +83,68 @@ export default {
   name: 'LoginView',
   data(){
       return{
-          student:{
-              id: '',
-              firstName: '',
-              lastName: '',
-              dob: '',
-              gender: '',
-              department: '',
-              emailID: ''
-          } 
+            student:{
+                id: '',
+                firstName: '',
+                lastName: '',
+                dob: '',
+                gender: '',
+                department: '',
+                emailID: ''
+            } ,
+            showAlert: false,
+            alertMsg: ''
       } 
   }, 
   components:{
       Alert
   }, 
   methods:{
-      addStudent(){
-          console.log("addStudent");
-          let student ={
-              id: this.student.id,
-              firstName: this.student.firstName,
-              lastName: this.student.lastName,
-              dob: this.student.dob,
-              gender: this.student.gender,
-              department: this.student.department,
-              emailID: this.student.emailID
-          } 
-          this.$store.dispatch('addStudent', student);
-          console.log("store: ",this.$store.state.students);
+        addStudent(){
+            console.log("addStudent1");
+            let student ={
+                id: this.student.id,
+                firstName: this.student.firstName,
+                lastName: this.student.lastName,
+                dob: this.student.dob,
+                gender: this.student.gender,
+                department: this.student.department,
+                emailID: this.student.emailID
+            } 
+            this.$store.dispatch('addStudent', student);
+            console.log("store: ",this.$store.state.students);
 
-          this.$router.push({ path: '/student' }  )
-      } 
+            this.$router.push({ path: '/student' }  )
+        } ,
+        vallidateStudent(item){
+            console.log("validateDOB")
+            console.log(item)
+            if(item.firstName){
+                this.validateName("First Name", item.firstName);
+            } 
+            if(item.lastName){
+                this.validateName("Last Name", item.lastName);
+            } 
+            if(item.dob){
+
+            } 
+            if(item.gender){
+
+            } 
+            if(item.department){
+
+            } 
+            if(item.emailID){
+
+            } 
+        } ,
+        validateName(fieldName, str){
+            console.log("validate fieldname; string", fieldName, str)
+            if(!str.match("/^[a-zA-Z ]+$/")){
+                this.showAlert = true;
+                this.alertMsg += "<p>" + fieldName + " is not valid<p>";
+            } 
+        } 
   } 
 }
 </script>

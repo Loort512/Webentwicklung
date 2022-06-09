@@ -6,6 +6,10 @@
             <router-link v-if="this.$store.state.loggedInAs === 'staff'" to="/courses" >Courses</router-link>
         </div>
         <h1>Students</h1>
+        <select name="departmentSelection" id="departmentSelection" @change="filterStudentsByDepartment($event)" >
+            <option value="noFilter">no Filter</option>
+            <option v-for="department in getDepartmentsByStudent()" value={{department}}>{{department}}</option>
+        </select>
         <table border=1>
             <tr>
                 <th>Student ID</th>
@@ -16,7 +20,7 @@
                 <th>Department</th>
                 <th>Email ID</th>
             </tr>
-            <tr v-for="student in students">
+            <tr v-for="student in studentsView">
                 <th> {{student.id}} </th>
                 <th> {{student.firstName}} </th>
                 <th> {{student.lastName}} </th>
@@ -105,7 +109,7 @@ export default{
     name: 'StudentView',
     data(){
         return{
-            students:[] ,
+            studentsView:[] ,
             activeStudent: '' ,
             showUpdateContent: false
         }  
@@ -115,32 +119,67 @@ export default{
     } ,
     mounted(){
         console.log("created StudentView")
-        this.students = this.$store.state.students
-        console.log("students: ", this.students)
+        this.studentsView = this.$store.state.students
+        console.log("students: ", this.studentsView)
         console.log("active student: ", this.activeStudent)
+        this.getDepartmentsByStudent()
     },
     methods:{
-      addStudent(){
-          console.log("addStudent")
-          this.$router.push({path: '/addstudent'}  )
-      } ,
-      showUpdateContent(st){
-        this.activeStudent = st;
-        this.showUpdateContent = true;
-      } ,
-      updateStudent(st){
-          if(this.activeStudent){
-              this.activeStudent = undefined;
-          } else{
-              this.activeStudent = st;
-          } 
-      } ,
-      deleteStudent(id){
-          console.log("delete Student ", id)
-          this.$store.dispatch('deleteStudent', id);
-          this.$router.push({path: '/'}  );
-          console.log("state in view: ", this.$store.state.students);
-      } 
+        addStudent(){
+            console.log("addStudent")
+            this.$router.push({path: '/addstudent'}  )
+        } ,
+        showUpdateContent(st){
+            this.activeStudent = st;
+            this.showUpdateContent = true;
+        } ,
+        updateStudent(st){
+            if(this.activeStudent){
+                this.activeStudent = undefined;
+            } else{
+                this.activeStudent = st;
+            } 
+        } ,
+        deleteStudent(id){
+            console.log("delete Student ", id)
+            this.$store.dispatch('deleteStudent', id);
+            this.$router.push({path: '/'}  );
+            console.log("state in view: ", this.$store.state.students);
+        } ,
+        getDepartmentsByStudent(){
+            let departmentsAll ={} ; 
+            departmentsAll = this.$store.state.students.map((st) => {
+                return st.department;
+            } ); 
+
+            let departments = []; 
+            departmentsAll.forEach((d)  => {
+
+                if(!departments.includes(d)){
+                    departments.push(d)
+                } 
+                
+            } );
+            console.log("departments", departments)
+            
+            return departments;
+        } ,
+        filterStudentsByDepartment(event) {
+            this.studentsView = this.$store.state.students;
+            let filterString = event.target.options[event.target.options.selectedIndex].text;
+
+            if(filterString === "no Filter"){
+                return;
+            } 
+            
+            this.studentsView = this.$store.state.students.filter((st) => {
+                if(st.department === filterString) {
+                    return st;
+                } 
+            })
+
+        } 
+          
     }  
 } 
 </script>
