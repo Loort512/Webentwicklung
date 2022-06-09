@@ -64,7 +64,7 @@
                     <input v-model="activeStaff.dob" 
                     id="DOB1" 
                     class="input" 
-                    type="text"/>
+                    type="date"/>
             </div>
             
 

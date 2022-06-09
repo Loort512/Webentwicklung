@@ -65,10 +65,10 @@
 
             <div class="inputForm">
                 <label for="dob">DOB</label>
-                    <input v-model="activeStudent.dob" 
-                    id="DOB" 
-                    class="input" 
-                    type="text"/>
+                    <input type="date" 
+                        v-model="activeStudent.dob"
+                        id="DOB" 
+                        class="input"/>
             </div>
             
 
@@ -104,6 +104,7 @@
 
 <script>
 import InputModal from '../components/InputModal.vue'
+import {formatDate}  from '../js/DateUtils.js'
 
 export default{
     name: 'StudentView',
@@ -178,7 +179,10 @@ export default{
                 } 
             })
 
-        } 
+        } ,
+        formatDate(date){
+    return date.toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"}) ;
+} 
           
     }  
 } 

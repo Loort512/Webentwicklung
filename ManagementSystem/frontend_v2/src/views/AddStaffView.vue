@@ -39,7 +39,7 @@
                 <input v-model="staff.dob" 
                 id="DOB" 
                 class="input" 
-                type="text"/>
+                type="date"/>
         </div>
         
 

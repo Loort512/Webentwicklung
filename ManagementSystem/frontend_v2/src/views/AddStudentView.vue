@@ -7,14 +7,15 @@
         </div>
         <form>
 
-        <Alert v-if="showAlert" :msg="alertMsg"></Alert>
+        <Alert v-if="showAlert" :notifications="alertMsg"></Alert>
         <h1>Add Student</h1>
         <div class="inputForm">
             <label for="studentID">ID</label>
             <input v-model="student.id" 
                 id="studentID" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student, false)"/>
         </div>
 
         <div class="inputForm">
@@ -23,7 +24,7 @@
                 id="firstName" 
                 class="input" 
                 type="text"
-                @change="vallidateStudent(student)"/>
+                @change="vallidateStudent(student, false)"/>
         </div>
         
         <div class="inputForm">
@@ -32,7 +33,7 @@
                 id="lastName" 
                 class="input" 
                 type="text"
-                @change="vallidateStudent(student)"/>
+                @change="vallidateStudent(student, false)"/>
         </div>
         
 
@@ -41,8 +42,8 @@
             <input v-model="student.dob" 
                 id="DOB" 
                 class="input" 
-                type="text"
-                @change="vallidateStudent(student)" />
+                type="date"
+                @change="vallidateStudent(student, false)" />
         </div>
         
 
@@ -51,7 +52,9 @@
             <input v-model="student.gender" 
                 id="gender" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student, false)"/>
+
         </div>
 
         <div class="inputForm">
@@ -59,7 +62,8 @@
             <input v-model="student.department" 
                 id="department" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student, false)"/>
         </div>
 
         <div class="inputForm">
@@ -67,12 +71,13 @@
             <input v-model="student.emailID" 
                 id="emailID" 
                 class="input" 
-                type="text"/>
+                type="text"
+                @change="vallidateStudent(student, false)"/>
         </div>
 
         
 
-        <button id="btnAddStudent" type="button" @click="addStudent()">Add</button>
+        <button v-if="!showAlert" id="btnAddStudent" type="button" @click="addStudent()">Add</button>
 </form>
     </div>
 </template>
@@ -93,7 +98,7 @@ export default {
                 emailID: ''
             } ,
             showAlert: false,
-            alertMsg: ''
+            alertMsg: [] 
       } 
   }, 
   components:{
@@ -101,7 +106,11 @@ export default {
   }, 
   methods:{
         addStudent(){
-            console.log("addStudent1");
+            this.vallidateStudent(this.student, true);
+            if(this.showAlert){
+                return;
+            } 
+
             let student ={
                 id: this.student.id,
                 firstName: this.student.firstName,
@@ -112,38 +121,95 @@ export default {
                 emailID: this.student.emailID
             } 
             this.$store.dispatch('addStudent', student);
-            console.log("store: ",this.$store.state.students);
 
             this.$router.push({ path: '/student' }  )
         } ,
-        vallidateStudent(item){
-            console.log("validateDOB")
-            console.log(item)
+        vallidateStudent(item, emptyCheck){
+            console.log("validate Student");
+            this.alertMsg = [] ;
+            this.showAlert = false;
+            if(item.id){
+                this.validateId(item.id)
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("ID cannot be empty")
+            } 
             if(item.firstName){
                 this.validateName("First Name", item.firstName);
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("First Name cannot be empty")
             } 
             if(item.lastName){
                 this.validateName("Last Name", item.lastName);
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("Last Name cannot be empty")
             } 
             if(item.dob){
-
+                this.validateBOD(item.dob);
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("DOB cannot be empty")
             } 
             if(item.gender){
-
+                this.validateGender(item.gender);
+            } else if(emptyCheck){ 
+                this.showAlert = true;
+                this.alertMsg.push("Gender cannot be empty")
             } 
             if(item.department){
-
+                this.validateName("Department", item.department);
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("Department cannot be empty")
             } 
             if(item.emailID){
-
+                
+            } else if(emptyCheck){
+                this.showAlert = true;
+                this.alertMsg.push("Email ID cannot be empty")
             } 
         } ,
         validateName(fieldName, str){
             console.log("validate fieldname; string", fieldName, str)
-            if(!str.match("/^[a-zA-Z ]+$/")){
+            if(!str.match("^[a-zA-Z ]+$")){
                 this.showAlert = true;
-                this.alertMsg += "<p>" + fieldName + " is not valid<p>";
+                this.alertMsg.push(fieldName + " is not valid");
             } 
+        },
+        validateBOD(str){
+            let bodDate = new Date(str);
+            let now = new Date();
+            let limit = new Date(now.getFullYear() - 17, now.getMonth(), now.getDate())
+            console.log(limit.toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"}))
+            if(bodDate > now){
+                this.showAlert = true;
+                this.alertMsg.push("Date has to be in the Past");
+            } 
+            if(bodDate > limit){
+                this.showAlert = true;
+                this.alertMsg.push("You have to be at least 17 years old");
+            } 
+        },
+        validateGender(str) {
+            if(!(str === "d" || str === "w" || str === "m")) {
+                this.showAlert = true;
+                this.alertMsg.push("Gender can be m/w/d");
+            } 
+        } ,
+        validateId(str) {
+            if(!str.match("^[0-9]+$")){
+                this.showAlert = true;
+                this.alertMsg.push("ID is not valid");
+            }
+        } ,
+        validateEmail(str){
+            console.log(str)
+            if(!str.match("^.*@.*$")){
+                this.showAlert = true;
+                this.alertMsg.push("Email is not valid");
+            }
         } 
   } 
 }
